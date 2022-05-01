@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from '@/infra/prisma/prisma.service'
-import UserRepositoryImpl, {UserRepository} from '@/domain/repositories/user'
+import UserRepositoryImpl, {UserRepository} from '@/repositories/user'
 import { Prisma } from "@prisma/client";
 import UserDomain from '@/domain/model/user'
 
@@ -13,11 +13,7 @@ export class CreateUserForm {
 
 @Injectable()
 export default class UserService {
-  private readonly userRepo : UserRepository
-
-  constructor(private readonly prisma:PrismaService ) {
-    this.userRepo = new UserRepositoryImpl(prisma)
-  }
+  constructor( private readonly userRepo:UserRepositoryImpl ) {}
 
   public async createUser(c:CreateUserForm): Promise<number> {
     // CreateUserForm 검증 추가 해야함 귀찮아서 스킵.
@@ -30,3 +26,4 @@ export default class UserService {
   }
 
 }
+

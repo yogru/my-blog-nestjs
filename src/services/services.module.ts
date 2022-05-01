@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import {InfraModule} from '@/infra/infra.module'
+import { RepositoriesModule } from '@/repositories/repositories.module'
 import UserService from '@/services/user'
 
 @Module({
-  imports: [InfraModule],
+  imports: [RepositoriesModule],
   controllers: [],
   providers: [UserService],
 })
