@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import UserRepositoryImpl, {UserRepository} from '@/repositories/user'
-import UserDomain from '@/domain/model/user'
+import UserDomain ,{UserProps}from '@/domain/model/user'
 
 export class CreateUserForm {
   account: string
@@ -15,11 +15,16 @@ export default class UserService {
 
   public async createUser(c:CreateUserForm): Promise<number> {
     // CreateUserForm 검증 추가 해야함 귀찮아서 스킵.
-    const userDomain:UserDomain = {
+    // 여기서는 필수 값 같은 검증
+
+    const userProps:UserProps = {
       account: c.account,
       password: c.password,
       name: c.name
     }
+    const userDomain = new UserDomain(userProps)
+    userDomain.validate()
+
     return this.userRepo.save(userDomain)
   }
 

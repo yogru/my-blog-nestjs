@@ -20,17 +20,17 @@ describe('UserRepository', () => {
     expect(service).toBeDefined();
   });
 
-  it('findById', async ()=>{
-    const userId = 1
-    const user =  await service.getUserById(userId)
-    expect(user).toBeDefined();
-    expect(user.id).toEqual(userId)
-  });
+  // it('findById', async ()=>{
+  //   const userId = 1
+  //   const user =  await service.getUserById(userId)
+  //   expect(user).toBeDefined();
+  //   expect(user.id).toEqual(userId)
+  // });
 
   it('saveUser', async ()=>{
     const newUserId = await service.createUser({
-      account:"테스트2",
-      password:"테스트3",
+      account: "qhr33@naver.com",
+      password:"1234567",
       name:"테스트4"
     })
     expect(newUserId).toBeDefined();
