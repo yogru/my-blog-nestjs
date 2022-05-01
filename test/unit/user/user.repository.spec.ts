@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from '@/user/user.service';
 import { InfraModule } from '@/infra/infra.module';
+import UserService from '@/services/user'
 
-describe('UserService', () => {
+describe('UserRepository', () => {
   let service: UserService;
 
   beforeEach(async () => {
@@ -16,15 +16,6 @@ describe('UserService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-
-  it('create user', () => {
-    expect(service).toBeDefined();
-    service.createUser({
-      account: 'test123',
-      password: 'test1',
-      name: 'test11',
-    });
   });
 });
 
