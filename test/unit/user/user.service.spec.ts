@@ -1,40 +1,41 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {RepositoriesModule} from '@/repositories/repositories.module'
-import { ServicesModule } from '@/services/services.module'
 import UserService from '@/services/user'
+import {RepositoriesTestModule} from '../../repositories/repositories.module'
+import UserFakeRepositoryImpl from '../../repositories/user'
 
-
-
-describe('UserService', () => {
+describe('UserRepository', () => {
   let service: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [RepositoriesModule],
-      providers: [UserService],
+      imports: [RepositoriesTestModule],
+      providers: [UserService,{
+        provide:"UserRepository", useClass: UserFakeRepositoryImpl
+      }],
     }).compile();
-    service = module.get<UserService>(UserService);
+    service =  module.get<UserService>(UserService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  it('create user', async () => {
-    // unique 여러가지 생성 실패 패턴 에러처리를 어떻게 해야할까?
-    // Fake 객체를 만들어야하나.
-    expect(service).toBeDefined();
-
-    const userId:number = await  service.createUser({
-      account: '권311',
-      password: 'test',
-      name: 'test11',
-    })
-    expect(userId).toBeDefined()
-    expect(userId).toEqual(expect.any(Number));
+  it('findById', async ()=>{
+    const userId = 1
+    const user =  await service.getUserById(userId)
+    expect(user).toBeDefined();
+    expect(user.id).toEqual(userId)
   });
 
-  it('findById', async ()=>{
+  it('saveUser', async ()=>{
+    const newUserId = await service.createUser({
+      account:"테스트2",
+      password:"테스트3",
+      name:"테스트4"
+    })
+    expect(newUserId).toBeDefined();
+    expect(newUserId).toEqual(expect.any(Number));
+  });
 
-  })
 });
+

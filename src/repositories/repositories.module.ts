@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
 import {InfraModule} from '@/infra/infra.module'
-import UserRepository from "@/repositories/user";
+import UserRepositoryImp ,{UserRepository} from "@/repositories/user";
+import UserFakeRepositoryImpl from "../../test/repositories/user";
 
 @Module({
   imports: [InfraModule],
   controllers: [],
-  providers: [UserRepository],
-  exports: [UserRepository]
+  providers: [
+    {
+      provide:"UserRepository", useClass: UserRepositoryImp
+    }
+  ],
+  exports: [UserRepositoryImp]
 })
 export class RepositoriesModule {}

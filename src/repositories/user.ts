@@ -1,5 +1,3 @@
-// @ts-ignore
-
 import {PrismaService} from '@/infra/prisma/prisma.service'
 import PrismaRepositoryBase, {RepositoryBase} from '@/adapters/repository'
 import User from '@/domain/model/user'
@@ -16,3 +14,4 @@ export default class UserRepositoryImpl extends PrismaRepositoryBase<number,User
     return this.prisma.user
   }
 }
+
