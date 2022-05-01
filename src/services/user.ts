@@ -8,6 +8,14 @@ export class CreateUserForm {
   name: string
 }
 
+export class UpdateUserForm {
+  account?: string
+  password?: string
+  name?: string
+  deleted?: boolean
+  updatedAt: Date
+}
+
 
 @Injectable()
 export default class UserService {
@@ -24,12 +32,19 @@ export default class UserService {
     }
     const userDomain = new UserDomain(userProps)
     userDomain.validate()
-
     return this.userRepo.save(userDomain)
+  }
+
+  public async updateUser(u:UpdateUserForm): Promise<boolean> {
+    return false
   }
 
   public async getUserById(id:number):Promise<UserDomain | undefined> {
     return this.userRepo.findById(id)
+  }
+
+  public async deleteUser(id:number):Promise<boolean> {
+    return false
   }
 
 }

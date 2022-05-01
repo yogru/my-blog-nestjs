@@ -3,7 +3,7 @@ import UserService from '@/services/user'
 import {RepositoriesTestModule} from '../../repositories/repositories.module'
 import UserFakeRepositoryImpl from '../../repositories/user'
 
-describe('UserRepository', () => {
+describe('UserService', () => {
   let service: UserService;
 
   beforeEach(async () => {

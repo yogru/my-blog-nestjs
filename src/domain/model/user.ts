@@ -1,4 +1,8 @@
 import validator from "@/infra/validator";
+import { ErrorChecker } from "@/infra/error";
+
+import { RuntimeException } from "@nestjs/core/errors/exceptions/runtime.exception";
+
 
 export interface UserProps {
   readonly id?:number
@@ -8,24 +12,6 @@ export interface UserProps {
   name: string
   createdAt?: Date
   updatedAt?: Date
-}
-
-export class ValidatorError extends Error {
-  errorList: string []
-  constructor() {
-    super();
-    this.errorList = []
-  }
-
-  public add(message:string){
-    this.errorList.push(message)
-    this.message = this.errorList.join(', ')
-  }
-
-  public isError():boolean {
-    return this.errorList.length >= 1 ? true : false;
-  }
-
 }
 
 
@@ -54,7 +40,7 @@ export default class User {
      *  비밀번호 자리수
      *  이메일 유효성 등등
      */
-    const validatorError = new ValidatorError()
+    const validatorError = new ErrorChecker()
     if(!validator.isEmail(this.account)){
       validatorError.add("invalid email")
     }
@@ -62,8 +48,7 @@ export default class User {
       validatorError.add("invalid password")
     }
     if(validatorError.isError()){
-      throw ValidatorError
+      throw new RuntimeException(validatorError.message)
     }
   }
-
 }

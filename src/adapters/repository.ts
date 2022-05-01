@@ -13,13 +13,20 @@ export default abstract class RepositoryBasePrismaImp<ID_TYPE, DOMAIN_TYPE> impl
   ) {}
 
   protected abstract getQuery(): any
+  protected abstract toPersistence(domain: DOMAIN_TYPE): any | null
+  protected abstract toDomain(persistence:any): DOMAIN_TYPE | null
+
 
   public async save(domain: DOMAIN_TYPE): Promise<ID_TYPE | undefined>{
+    const persistence = this.toPersistence(domain)
+    if(!persistence){
+      return undefined
+    }
     try {
       const query = this.getQuery()
       const persistenceEntity = await query.create({
         data: {
-          ...domain
+          ...persistence
         }
       })
       return persistenceEntity.id
@@ -29,7 +36,16 @@ export default abstract class RepositoryBasePrismaImp<ID_TYPE, DOMAIN_TYPE> impl
   }
 
   public async findById(id: ID_TYPE): Promise< DOMAIN_TYPE  | undefined >  {
-    throw new Error("Method not implemented.")
+    try {
+      const query = this.getQuery()
+      const persistence = query.findUnique({
+        where: {
+          id
+        }
+      })
+     return this.toDomain(persistence)
+    }catch (e) {
+      throw e
+    }
   }
-
 }
